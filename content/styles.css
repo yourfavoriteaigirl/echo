@@ -1,0 +1,232 @@
+/* Button styles */
+.echo-reply-button {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-left: 16px;
+}
+
+.echo-reply-button:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+.echo-reply-button img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.echo-reply-button span {
+  display: none;
+}
+
+.echo-reply-popup {
+  position: fixed;
+  width: 400px;
+  min-height: 150px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: rgb(32, 35, 39);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  z-index: 2147483647;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.98);
+  transition: opacity 0.2s cubic-bezier(0.3, 0, 0.2, 1) 0.1s,
+              transform 0.2s cubic-bezier(0.3, 0, 0.2, 1);
+  border: 1px solid rgb(47, 51, 54);
+  color: rgb(231, 233, 234);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  left: 50%;
+  top: 50%;
+  pointer-events: auto;
+}
+
+.echo-reply-popup.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  display: flex !important;
+}
+
+.popup-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgb(47, 51, 54);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: move;
+  user-select: none;
+  background: rgba(39, 44, 48, 0.8);
+}
+
+.popup-header:hover {
+  background: rgba(39, 44, 48, 1);
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgb(231, 233, 234);
+  font-family: Arial, sans-serif;
+}
+
+.popup-body {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgb(32, 35, 39);
+}
+
+.close-button {
+  z-index: 1;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgb(113, 118, 123);
+  font-size: 20px;
+  transition: all 0.2s;
+}
+
+.close-button:hover {
+  background-color: rgba(239, 243, 244, 0.1);
+  color: rgb(231, 233, 234);
+}
+
+.generated-reply {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.generated-reply textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 50px;
+  padding: 12px;
+  border: none;
+  resize: none;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  background: rgb(32, 35, 39);
+  color: rgb(231, 233, 234);
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.action-buttons {
+  padding: 8px 12px;
+  border-top: 1px solid rgb(47, 51, 54);
+  display: flex;
+  gap: 8px;
+  background: rgb(32, 35, 39);
+  margin: 0;
+}
+
+.action-buttons button {
+  flex: 1;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-button {
+  background-color: rgb(29, 161, 242);
+  color: white;
+}
+
+.copy-button:hover {
+  background-color: rgb(26, 145, 218);
+}
+
+.regenerate-button {
+  background-color: rgb(239, 243, 244);
+  color: rgb(15, 20, 25);
+}
+
+.regenerate-button:hover {
+  background-color: rgb(215, 219, 220);
+}
+
+.loading-spinner {
+  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.loading-spinner::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgb(29, 161, 242);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text, .generating-text, .step-text {
+  display: none;
+}
+
+.error-container {
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.error-message {
+  color: rgb(231, 233, 234);
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.error-container .regenerate-button {
+  width: auto;
+  min-width: 120px;
+  padding: 8px 16px;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} 
