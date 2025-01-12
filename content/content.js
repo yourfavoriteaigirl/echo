@@ -118,8 +118,19 @@ function processTweet(tweetElement) {
       .join('\n\n');
   }
 
+  // Find images in the tweet's media container
+  const images = Array.from(tweetElement.querySelectorAll('[data-testid="tweetPhoto"] img'))
+    .map(img => {
+      // Ensure it's a media image and not a profile pic or emoji
+      if (!img.src.includes('pbs.twimg.com/media')) return null;
+      // Convert to small format
+      return img.src.replace(/&name=\w+$/, '&name=small');
+    })
+    .filter(Boolean);
+
   return {
-    text: fullText
+    text: fullText,
+    images: images
   };
 }
 
@@ -131,6 +142,8 @@ function injectButtonIntoTweet(tweetElement) {
 
   const button = createReplyButton();
   actionsBar.appendChild(button);
+
+  let cachedImageAnalysis = null;  // Store image analysis
 
   button.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -156,6 +169,11 @@ function injectButtonIntoTweet(tweetElement) {
     try {
       const tweetData = processTweet(tweetElement);
       
+      // Add cached analysis to the request if available
+      if (cachedImageAnalysis) {
+        tweetData.imageAnalysis = cachedImageAnalysis;
+      }
+      
       chrome.runtime.sendMessage({
         type: 'GENERATE_REPLY',
         data: tweetData
@@ -169,6 +187,11 @@ function injectButtonIntoTweet(tweetElement) {
           replyArea.style.display = 'block';
           textarea.value = `Error: ${response.error}`;
           return;
+        }
+
+        // Cache the image analysis if it's a new one
+        if (response.imageAnalysis) {
+          cachedImageAnalysis = response.imageAnalysis;
         }
 
         loadingSpinner.style.display = 'none';
@@ -191,9 +214,15 @@ function injectButtonIntoTweet(tweetElement) {
             loadingSpinner.style.display = 'flex';
             replyArea.style.display = 'none';
             
+            // Use cached image analysis for regeneration
+            const regenerateData = {
+              ...tweetData,
+              imageAnalysis: cachedImageAnalysis
+            };
+            
             chrome.runtime.sendMessage({
               type: 'GENERATE_REPLY',
-              data: tweetData
+              data: regenerateData
             }, newResponse => {
               loadingSpinner.style.display = 'none';
               replyArea.style.display = 'block';
